@@ -5,12 +5,20 @@ import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { auth } from './firebase';
 import LoginScreen from './screens/sessions/LoginScreen';
+import RegisterScreen from './screens/sessions/RegisterScreen.js';
 
 const Stack = createStackNavigator();
 
 export default function App() {
   const [signedIn, setSignedIn] = useState(false);
 
+  const forFade = ({ current }) => ({
+    cardStyle: {
+      opacity: current.progress,
+      backgroundColor: 'transparent',
+    },
+  });
+  
   auth.onAuthStateChanged((user) => {
     if (user) {
       setSignedIn(true);
@@ -32,7 +40,8 @@ export default function App() {
           <Stack.Screen name="signedIn" 
             component={LoginScreen}
             options={{
-              title: 'Sign in', 
+              title: 'Sign in',
+              cardStyleInterpolator: forFade,
               headerStyle: {
                 backgroundColor: '#29434e',
                 borderBottomColor: '#29434e',
@@ -40,6 +49,19 @@ export default function App() {
               headerTintColor: '#fff',
             }}
           />
+          <Stack.Screen 
+            name="register"
+            component={RegisterScreen}
+            options={{
+              title: 'Register',
+              cardStyleInterpolator: forFade,
+              headerStyle: {
+                backgroundColor: '#29434e',
+                backgroundColor: '#29434e',
+              },
+              headTintColor: '#fff',  
+            }}
+            />
           </Stack.Navigator>
           </>
           )}

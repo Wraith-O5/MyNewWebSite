@@ -21,8 +21,12 @@ const styles = StyleSheet.create({
   errorText: {
     color: 'red'
   },
-  switchScreenText:{
-
+  switchScreenText: {
+    paddingTop: 20,
+    paddingLeft: 10,
+  },
+  switchBtn: {
+    margin: 10,
   },
   
 });
