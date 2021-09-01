@@ -6,6 +6,11 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { auth } from './firebase';
 import LoginScreen from './screens/sessions/LoginScreen';
 import RegisterScreen from './screens/sessions/RegisterScreen.js';
+import {SafeAreaView } from 'react-native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { FontAwesome } from '@expo/vector-icons';
+import ShopmindersTab from './screens/ShopmindersTab.jsx';
+import SettingsTab from './screens/SettingsTab.jsx';
 
 const Stack = createStackNavigator();
 
@@ -27,9 +32,59 @@ export default function App() {
     }
   });
 
+  const Tab = createBottomTabNavigator();
+
   return (
     <NavigationContainer theme={DefaultTheme}>
-      {signedIn ?(<Text>Signed in</Text>
+      {signedIn ?(<SafeAreaView style={{flex: 1, backgroundColor: '#29434e'}}>
+    <Tab.Navigator
+      screenOptions={({ route }) => ({
+      tabBarIcon: ({ color, size }) => {
+        if (route.name === 'shopminders') {
+          return (
+            <FontAwesome 
+              name='list-ul'
+              size={size}
+              color={color}
+            />
+          )
+        } 
+        if (route.name === 'settings') {
+          return (
+            <FontAwesome 
+              name="cogs"
+              size={size}
+              color={color}
+            />
+          )
+        }
+      },
+    })}
+    tabBarOptions={{
+      activeTintColor: 'white',
+      inactiveTintColor: '#819ca9',
+      style: {
+        backgroundColor: '#29434e'
+      }
+    }}
+    >
+      <Tab.Screen 
+        name="shopminders"
+        component={ShopmindersTab}
+        options={{
+          title: 'Shopminders'
+      }}
+      />
+      <Tab.Screen 
+        name="settings"
+        component={SettingsTab}
+        options={{
+          title: 'Settings'
+        }}
+      />
+    </Tab.Navigator>
+  </SafeAreaView> 
+  
       ) : (
       <>
         <StatusBar style="light"/>
@@ -66,6 +121,7 @@ export default function App() {
           </>
           )}
     </NavigationContainer>
+
   );
 }
 
